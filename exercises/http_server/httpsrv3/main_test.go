@@ -1,11 +1,11 @@
 // httpsrv3
 // Decode a JSON request body and encode a JSON response with encoding/json.
 
-// I AM NOT DONE
 package main_test
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -24,8 +24,23 @@ type echoResp struct {
 // {"greeting": "Hello, <name>!"} and Content-Type application/json.
 func echoHandler(w http.ResponseWriter, r *http.Request) {
 	// FIXME: decode the JSON body, set the JSON content-type, then encode the reply.
-	_ = w
-	_ = r
+	var payload echoReq
+	err := json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		_, err = w.Write([]byte("Failed to read & decode request body"))
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	responseBody := echoResp{Greeting: fmt.Sprintf("Hello, %s!", payload.Name)}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	err = json.NewEncoder(w).Encode(responseBody)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func TestEchoHandler(t *testing.T) {
