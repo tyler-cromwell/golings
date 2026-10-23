@@ -1,10 +1,10 @@
 // httpsrv1
 // Write an http.HandlerFunc and test it with httptest, no real network needed.
 
-// I AM NOT DONE
 package main_test
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -15,8 +15,20 @@ import (
 // "name" query parameter and defaults to "world".
 func greetHandler(w http.ResponseWriter, r *http.Request) {
 	// FIXME: read the name query param (default "world") and write the greeting.
-	_ = w
-	_ = r
+	queryParams := r.URL.Query()
+	qpNameValue := queryParams.Get("name")
+	if qpNameValue == "" {
+		qpNameValue = "world"
+	}
+
+	// Obtain the name from the `name` query parameter
+	// Write response with that name and default
+	payload := fmt.Sprintf("Hello, %s!", qpNameValue)
+	w.WriteHeader(http.StatusOK)
+	_, err := w.Write([]byte(payload))
+	if err != nil {
+		panic(err)
+	}
 }
 
 func TestGreetHandlerDefault(t *testing.T) {
