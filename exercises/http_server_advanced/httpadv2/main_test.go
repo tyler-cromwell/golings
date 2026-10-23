@@ -3,7 +3,6 @@
 // "GET /users/{id}/posts/{postID}". r.PathValue("postID") returns that path
 // segment — but ONLY if the name matches a {wildcard} in the pattern exactly.
 
-// I AM NOT DONE
 package main_test
 
 import (
@@ -18,7 +17,7 @@ func newRouter() http.Handler {
 	mux.HandleFunc("GET /users/{id}/posts/{postID}", func(w http.ResponseWriter, r *http.Request) {
 		// FIXME: "post_id" is not a wildcard in the pattern, so PathValue returns
 		// "". Read the value with the exact wildcard name: r.PathValue("postID").
-		postID := r.PathValue("post_id")
+		postID := r.PathValue("postID")
 		if _, err := w.Write([]byte(postID)); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
