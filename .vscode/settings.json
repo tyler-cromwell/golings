@@ -9,8 +9,8 @@
 	// was launched without the mise PATH (GUI launch). The shims resolve the
 	// version pinned in mise.toml. ~ is expanded by the Go extension.
 	"go.alternateTools": {
-		"go": "~/.local/share/mise/shims/go",
-		"gopls": "~/.local/share/mise/shims/gopls",
+		"go": "/home/vscode/.local/share/mise/shims/go",
+		"gopls": "/home/vscode/.local/share/mise/shims/gopls",
 		"golangci-lint": "~/.local/share/mise/shims/golangci-lint"
 	},
 
@@ -30,7 +30,7 @@
 		}
 	},
 	"debug.javascript.defaultRuntimeExecutable": {
-		"pwa-node": "~/.local/share/mise/shims/node"
+		"pwa-node": "/home/vscode/.local/share/mise/shims/node"
 	},
 	"python.defaultInterpreterPath": "~/.local/share/mise/installs/python/3.13.7/bin/python"
 }
