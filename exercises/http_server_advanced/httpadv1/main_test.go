@@ -3,7 +3,6 @@
 // requests using the browser's Sec-Fetch-Site metadata — CSRF defense with no
 // tokens or cookies. You opt in by wrapping your handler with it.
 
-// I AM NOT DONE
 package main_test
 
 import (
@@ -14,9 +13,7 @@ import (
 
 // protect should wrap h so cross-site unsafe requests (like POST) are rejected.
 func protect(h http.Handler) http.Handler {
-	// FIXME: return http.NewCrossOriginProtection().Handler(h) instead of the
-	// bare handler, so a cross-site POST is blocked.
-	return h
+	return http.NewCrossOriginProtection().Handler(h)
 }
 
 func TestCrossOriginBlocked(t *testing.T) {
