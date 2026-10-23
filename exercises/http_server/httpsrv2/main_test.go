@@ -1,10 +1,10 @@
 // httpsrv2
 // Route requests with http.ServeMux using Go 1.22 method + path patterns.
 
-// I AM NOT DONE
 package main_test
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -15,14 +15,19 @@ import (
 // e.g. GET /users/42 -> "user 42".
 func userHandler(w http.ResponseWriter, r *http.Request) {
 	// FIXME: read the {id} path value and write it back.
-	_ = w
-	_ = r
+	userId := r.PathValue("id")
+	payload := fmt.Sprintf("user %s", userId)
+	w.WriteHeader(http.StatusOK)
+	_, err := w.Write([]byte(payload))
+	if err != nil {
+		panic(err)
+	}
 }
 
 // newMux wires the routes.
 func newMux() *http.ServeMux {
 	mux := http.NewServeMux()
-	// FIXME: register the handler for the GET method + path pattern.
+	mux.HandleFunc("GET /users/{id}", userHandler)
 	return mux
 }
 
