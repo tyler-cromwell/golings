@@ -20,7 +20,7 @@ func newProxy(target *url.URL) *httputil.ReverseProxy {
 		Rewrite: func(pr *httputil.ProxyRequest) {
 			// FIXME: the outbound request is never pointed at the backend, so it
 			// forwards nowhere. Call pr.SetURL(target) here.
-			_ = pr
+			pr.SetURL(target)
 		},
 	}
 }
